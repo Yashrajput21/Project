@@ -1,0 +1,56 @@
+class Movie:
+    def __init__(self, name, seats):
+        self.name = name
+        self.seats = seats
+
+    def book_seat(self, num):
+        if self.seats >= num:
+            self.seats -= num
+            return True
+        else:
+            return False
+
+def show_movies(movies):
+    print("\nAvailable Movies:")
+    for idx, movie in enumerate(movies):
+        print(f"{idx+1}. {movie.name} ({movie.seats} seats available)")
+
+def main():
+    movies = [
+        Movie("Inception", 50),
+        Movie("Interstellar", 40),
+        Movie("The Matrix", 30),
+        Movie("Jawan", 60)
+    ]
+
+    while True:
+        show_movies(movies)
+
+        choice = input("\nEnter the movie number to book (or 'q' to quit): ")
+        if choice.lower() == 'q':
+            print("Thank you for using the Movie Ticket Booking System!")
+            break
+
+        if not choice.isdigit() or int(choice) < 1 or int(choice) > len(movies):
+            print("Invalid choice. Try again.")
+            continue
+
+        movie_index = int(choice) - 1
+        selected_movie = movies[movie_index]
+
+        try:
+            seats_to_book = int(input(f"Enter number of seats to book for '{selected_movie.name}': "))
+            if seats_to_book <= 0:
+                print("Please enter a valid number of seats.")
+                continue
+        except ValueError:
+            print("Invalid input. Enter a number.")
+            continue
+
+        if selected_movie.book_seat(seats_to_book):
+            print(f"✅ Successfully booked {seats_to_book} seats for '{selected_movie.name}'.")
+        else:
+            print("❌ Not enough seats available. Try fewer seats.")
+
+if __name__ == "__main__":
+    main()
